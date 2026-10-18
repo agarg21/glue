@@ -69,7 +69,19 @@ jobs:
       envs: |
         - linux: py315-test-dev
 
+  # On PRs, run the sdist/wheel build check alongside the test matrix instead of after it.
+  # Pushes and tags keep tests -> publish ordering.
+  # fork-only (measurement): workflow_dispatch stands in for pull_request in both conditions.
+  build_check:
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    needs: initial_checks
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+    with:
+      test_extras: 'test'
+      test_command: pytest --pyargs glue
+
   publish:
+    if: github.event_name != 'pull_request' && github.event_name != 'workflow_dispatch'
     needs: tests
     uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
     with:
