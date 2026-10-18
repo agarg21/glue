@@ -7,6 +7,7 @@ on:
     tags:
     - '*'
   pull_request:
+  workflow_dispatch:  # fork-only (measurement)
 
 jobs:
   initial_checks:
