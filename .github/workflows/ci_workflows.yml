@@ -79,6 +79,7 @@ jobs:
     with:
       test_extras: 'test'
       test_command: pytest --pyargs glue
+      python-version: '3.14'  # fork-only measurement pin: '3.x' became 3.15 on 2026-10-20 (no h5py wheel)
 
   publish:
     if: github.event_name != 'pull_request' && github.event_name != 'workflow_dispatch'
@@ -87,5 +88,6 @@ jobs:
     with:
       test_extras: 'test'
       test_command: pytest --pyargs glue
+      python-version: '3.14'  # fork-only measurement pin: '3.x' became 3.15 on 2026-10-20 (no h5py wheel)
     secrets:
       pypi_token: ${{ secrets.pypi_token }}
